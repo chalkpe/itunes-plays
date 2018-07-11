@@ -1,0 +1,26 @@
+{
+  "name": "itunes-plays",
+  "version": "1.0.0",
+  "description": "iTunes play count visualizer",
+  "main": "src/index.js",
+  "repository": "https://github.com/ChalkPE/itunes-plays",
+  "author": "ChalkPE",
+  "license": "MIT",
+  "dependencies": {
+    "chokidar": "^2.0.4",
+    "dotenv": "^6.0.0",
+    "ink": "^0.5.1",
+    "plist": "^3.0.1"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.0.0-beta.52",
+    "@babel/core": "^7.0.0-beta.52",
+    "@babel/plugin-transform-react-jsx": "^7.0.0-beta.52",
+    "@babel/preset-env": "^7.0.0-beta.52"
+  },
+  "scripts": {
+    "lint": "standard",
+    "build": "babel src --out-dir lib",
+    "start": "yarn run build && node lib"
+  }
+}
