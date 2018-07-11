@@ -10,6 +10,7 @@
     "chokidar": "^2.0.4",
     "dotenv": "^6.0.0",
     "ink": "^0.5.1",
+    "ink-table": "^1.0.3",
     "plist": "^3.0.1"
   },
   "devDependencies": {
@@ -19,7 +20,6 @@
     "@babel/preset-env": "^7.0.0-beta.52"
   },
   "scripts": {
-    "lint": "standard",
     "build": "babel src --out-dir lib",
     "start": "yarn run build && node lib"
   }

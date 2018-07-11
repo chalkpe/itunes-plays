@@ -1,5 +1,7 @@
 import parse from './parse'
 import { watch } from 'chokidar'
+
+import Table from 'ink-table'
 import { h, render, Component, Color } from 'ink'
 
 class Graph extends Component {
@@ -12,17 +14,23 @@ class Graph extends Component {
     }
   }
 
-  render () { // TODO
-    return (
-      <Color red>
-        { this.state.tracks.length } tracks found!
-      </Color>
-    )
+  render () {
+    const P = 'Play Count'
+    const data = this.state.tracks
+      .sort((a, b) => (b[P] || 0) - (a[P] || 0))
+      .slice(0, 25)
+      .map(
+        ({ Name, Artist, Album, [P]: Count }, i) =>
+        ({ Rank: i + 1, Count, Name, Artist, Album }))
+
+    return (<Table data={data} />)
   }
 
   componentDidMount () {
     this.track()
-    this.setState({ watcher: watch(this.props.file).on('change', this.track) })
+    this.setState({
+      watcher: watch(this.props.file).on('change', () => this.track())
+    })
   }
 
   componentWillUnmount () {
