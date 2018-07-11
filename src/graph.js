@@ -15,15 +15,7 @@ class Graph extends Component {
   }
 
   render () {
-    const P = 'Play Count'
-    const data = this.state.tracks
-      .sort((a, b) => (b[P] || 0) - (a[P] || 0))
-      .slice(0, 25)
-      .map(
-        ({ Name, Artist, Album, [P]: Count }, i) =>
-        ({ Rank: i + 1, Count, Name, Artist, Album }))
-
-    return (<Table data={data} />)
+    return (<Table data={this.state.tracks} />)
   }
 
   componentDidMount () {
