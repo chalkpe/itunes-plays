@@ -1,5 +1,6 @@
-import parse from './parse'
-import { watch } from 'chokidar'
+import moment from 'moment'
+import Library from './library'
+import { peek, rank } from './util'
 
 import Table from 'ink-table'
 import { h, render, Component, Color } from 'ink'
@@ -7,31 +8,28 @@ import { h, render, Component, Color } from 'ink'
 class Graph extends Component {
   constructor (props) {
     super(props)
-
-    this.state = {
-      tracks: [],
-      watcher: null
-    }
+    this.state = { library: null }
   }
 
   render () {
-    return (<Table data={this.state.tracks} />)
+    const { library } = this.state
+    if (!library) return (<Color grey>Loading...</Color>)
+
+    const data = library.mostPlayedTracks
+      .slice(0, 25)
+      .map(o => ({ ...o, l: moment(o.playDateUtc).fromNow() }))
+      .map(peek('playCount:count', 'name', 'artist', 'album', 'l:last played'))
+      .map(rank('Count'))
+
+    return (<Table data={data} />)
   }
 
   componentDidMount () {
-    this.track()
-    this.setState({
-      watcher: watch(this.props.file).on('change', () => this.track())
-    })
+    this.setState({ library: new Library(this.props.file) })
   }
 
   componentWillUnmount () {
-    this.state.watcher.close()
-    this.setState({ watcher: null })
-  }
-
-  track () {
-    this.setState({ tracks: parse(this.props.file) })
+    if (this.state.library) this.state.library.close()
   }
 }
 

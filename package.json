@@ -7,10 +7,12 @@
   "author": "ChalkPE",
   "license": "MIT",
   "dependencies": {
+    "camelcase-keys": "^4.2.0",
     "chokidar": "^2.0.4",
     "dotenv": "^6.0.0",
     "ink": "^0.5.1",
     "ink-table": "^1.0.3",
+    "moment": "^2.22.2",
     "plist": "^3.0.1"
   },
   "devDependencies": {
