@@ -1,7 +1,7 @@
 # itunes-plays
 iTunes play count visualizer
 
-![screenshot](https://i.imgur.com/YAqVzIa.png)
+![screenshot](https://i.imgur.com/n0lpqef.png)
 
 ## Usage
 1. Open **iTunes** -> **File** - **Preferences** `⌘,` -> **Advanced** -> Check **Share iTunes Library XML with other applications**
