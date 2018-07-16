@@ -17,7 +17,8 @@ class Graph extends Component {
 
     const data = library.mostPlayedTracks
       .slice(0, 25)
-      .map(o => ({ ...o, l: moment(o.playDateUtc).fromNow() }))
+      .filter(o => o.playCount)
+      .map(o => ({ ...o, l: moment(o.playDateUtc || 0).fromNow() }))
       .map(peek('playCount:count', 'name', 'artist', 'album', 'l:last played'))
       .map(rank('Count'))
 
