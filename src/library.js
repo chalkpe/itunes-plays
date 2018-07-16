@@ -6,14 +6,13 @@ import camelcase from 'camelcase-keys'
 class Library {
   constructor (path) {
     this.path = path
-    this.watcher = chokidar.watch(this.path).on('change', () => this.fetch())
+    if (!path.endsWith('.xml')) throw new Error('XML file is needed')
 
     this.fetch()
+    this.watcher = chokidar.watch(this.path).on('change', () => this.fetch())
   }
 
   fetch () {
-    if (!this.path.endsWith('.xml')) throw new Error('XML file is needed')
-
     const file = fs.readFileSync(this.path, 'utf8')
     const library = camelcase(plist.parse(file), { deep: true })
 
@@ -27,9 +26,11 @@ class Library {
   }
 
   get mostPlayedTracks () {
+    const [x, y] = ['playCount', 'playDate']
+
     return this.tracks
-      .filter(o => o.playCount && o.playDate)
-      .sort((a, b) => (b.playCount - a.playCount) || (b.playDate - a.playDate))
+      .filter(o => o[x] && o[y])
+      .sort((a, b) => (b[x] - a[x]) || (b[y] - a[y]))
   }
 
   findTracksByArtistName (artist, exact = false) {

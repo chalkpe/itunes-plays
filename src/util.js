@@ -23,5 +23,5 @@ export function rank (key, out = 'rank') {
 }
 
 export function played (key, out = 'played') {
-  return o => ({ ...o, [out]: moment(o[key] || 0).fromNow() })
+  return obj => ({ ...obj, [out]: moment(obj[key] || 0).fromNow() })
 }
