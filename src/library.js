@@ -27,10 +27,9 @@ class Library {
   }
 
   get mostPlayedTracks () {
-    return [...this.tracks] // clone array
-      .sort((a, b) =>
-        (b.playCount || 0) - (a.playCount || 0)
-        || ((b.playDate || 0) - (a.playDate || 0)))
+    return this.tracks
+      .filter(o => o.playCount && o.playDate)
+      .sort((a, b) => (b.playCount - a.playCount) || (b.playDate - a.playDate))
   }
 
   findTracksByArtistName (artist, exact = false) {

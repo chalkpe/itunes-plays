@@ -1,9 +1,14 @@
-import moment from 'moment'
-import Library from './library'
-import { peek, rank } from './util'
-
 import Table from 'ink-table'
 import { h, render, Component, Color } from 'ink'
+
+import Library from './library'
+import { rank, played, peek } from './util'
+
+const table = lib => lib.mostPlayedTracks
+  .slice(0, 25)
+  .map(rank('playCount'))
+  .map(played('playDateUtc'))
+  .map(peek('rank', 'playCount:count', 'name', 'artist', 'album', 'played'))
 
 class Graph extends Component {
   constructor (props) {
@@ -12,17 +17,8 @@ class Graph extends Component {
   }
 
   render () {
-    const { library } = this.state
-    if (!library) return (<Color grey>Loading...</Color>)
-
-    const data = library.mostPlayedTracks
-      .slice(0, 25)
-      .filter(o => o.playCount)
-      .map(o => ({ ...o, l: moment(o.playDateUtc || 0).fromNow() }))
-      .map(peek('playCount:count', 'name', 'artist', 'album', 'l:last played'))
-      .map(rank('Count'))
-
-    return (<Table data={data} />)
+    const { library: lib } = this.state
+    return lib ? (<Table data={table(lib)} />) : (<Color green>Loading</Color>)
   }
 
   componentDidMount () {

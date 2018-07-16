@@ -1,3 +1,5 @@
+import moment from 'moment'
+
 export function cap (str) {
   return str[0].toUpperCase() + str.slice(1).toLowerCase()
 }
@@ -13,9 +15,13 @@ export function peek (...keys) {
     .reduce((a, b) => ({ ...a, ...b }), {})
 }
 
-export function rank (key, out = 'Rank') {
+export function rank (key, out = 'rank') {
   return (obj, i, arr) => ({
-    [out]: i === arr.findIndex(o => o[key] === obj[key]) ? i + 1 : '',
-    ...obj
+    ...obj,
+    [out]: i === arr.findIndex(o => o[key] === obj[key]) ? `#${i + 1}` : ''
   })
+}
+
+export function played (key, out = 'played') {
+  return o => ({ ...o, [out]: moment(o[key] || 0).fromNow() })
 }
